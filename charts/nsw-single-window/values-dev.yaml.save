@@ -1,0 +1,41 @@
+cat > values-dev.yaml <<'EOF'
+name: nsw-alvi-2026
+
+replicaCount: 2
+
+image:
+  repository: "docker pull registry.metaheedcloud.com/moin/single-window-client@sha256:95e063e80f39a51e1cfc18feaade3ec29abf2b70fa3563159f16248242cee352"
+  tag: "REPLACE_WITH_FIXED_TAG"
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: registry-pull-secret
+
+containerPort: 80
+
+service:
+  type: ClusterIP
+  port: 80
+
+readinessProbe:
+  path: /
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+ingress:
+  className: "REPLACE_WITH_INGRESS_CLASS"
+  host: "REPLACE_WITH_ASSIGNED_HOSTNAME"
+  path: /
+  pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
+

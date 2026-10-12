@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "nsw-single-window.fullname" . }}-test-connection"
+  labels:
+    {{- include "nsw-single-window.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "nsw-single-window.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
